@@ -1,0 +1,15 @@
+name: Diagnostico
+on:
+  push:
+    branches: [diag]
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: |
+          { node -v; npm -v; npm ci 2>&1 | grep -v "^npm error \[\|^npm error  " | head -30; } > out.txt || true
+          echo "::warning title=npm ci::$(sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g' out.txt)"
