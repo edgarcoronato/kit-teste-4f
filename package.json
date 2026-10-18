@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "prepare": "husky",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "format:check": "prettier --check .",
     "test": "vitest run --passWithNoTests",
     "verificar": "npm run lint && npm run typecheck && npm run format:check && npm run test"
