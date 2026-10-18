@@ -5,6 +5,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
+        <p data-teste="gate">Tela nova do PR de teste do kit (gate de interface).</p>
         <Image
           className={styles.logo}
           src="/next.svg"
