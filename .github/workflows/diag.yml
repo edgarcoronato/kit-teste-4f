@@ -2,14 +2,40 @@ name: Diagnostico
 on:
   push:
     branches: [diag]
+permissions:
+  contents: write
 jobs:
-  diag:
-    runs-on: ubuntu-latest
+  lock-no-mac:
+    strategy:
+      matrix:
+        modo: [reparar, do-zero]
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: 24
       - run: |
-          { node -v; npm -v; npm ci 2>&1 | grep -v "^npm error \[\|^npm error  " | head -30; } > out.txt || true
-          echo "::warning title=npm ci::$(sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g' out.txt)"
+          npm -v
+          if [ "${{ matrix.modo }}" = do-zero ]; then rm -f package-lock.json; fi
+          npm install --package-lock-only --ignore-scripts
+          git config user.name diag && git config user.email diag@example.invalid
+          git checkout -b diag-${{ matrix.modo }}
+          git add package-lock.json && git commit -m "lock ${{ matrix.modo }} (npm $(npm -v), macOS)" || true
+          git push -f origin diag-${{ matrix.modo }}
+  ci-no-linux:
+    needs: lock-no-mac
+    strategy:
+      matrix:
+        modo: [reparar, do-zero]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: diag-${{ matrix.modo }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: |
+          { echo "modo ${{ matrix.modo }}"; npm -v; npm ci 2>&1 | grep -E "added|npm error (code|Missing|Invalid)" | head -8; } > out.txt || true
+          echo "::warning title=npm ci ${{ matrix.modo }}::$(sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g' out.txt)"
