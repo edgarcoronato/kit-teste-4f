@@ -69,5 +69,12 @@ jobs:
         run: |
           curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSAO}/gitleaks_${GITLEAKS_VERSAO}_linux_x64.tar.gz" \
             | tar -xz gitleaks
-      - name: Procurar segredos no histórico
-        run: ./gitleaks git --redact --verbose .
+      # Num PR, só os commits do PR; na main, o histórico da main. Sem isso o gitleaks olha
+      # todas as branches, e um segredo numa branch faz falhar os PRs que não têm nada.
+      - name: Procurar segredos
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [ -n "$BASE" ]; then INTERVALO="$BASE..$HEAD"; else INTERVALO="HEAD"; fi
+          ./gitleaks git --redact --verbose --log-opts="$INTERVALO" .
