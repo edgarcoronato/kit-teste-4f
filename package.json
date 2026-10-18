@@ -1,0 +1,42 @@
+{
+  "name": "kit-teste-4f",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --max-warnings=0",
+    "prepare": "husky",
+    "typecheck": "tsc --noEmit",
+    "format:check": "prettier --check .",
+    "test": "vitest run --passWithNoTests",
+    "verificar": "npm run lint && npm run typecheck && npm run format:check && npm run test"
+  },
+  "dependencies": {
+    "next": "16.4.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.10",
+    "typescript": "^5",
+    "vitest": "^4.1.12"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
+      "eslint --fix --max-warnings=0",
+      "prettier --write"
+    ],
+    "*.{json,css,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
+}

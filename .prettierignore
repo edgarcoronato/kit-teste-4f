@@ -1,0 +1,13 @@
+# Gerados e dependências
+.next/
+node_modules/
+coverage/
+**/database.types.ts
+
+# Markdown fica fora: o Prettier reescreve tabelas e listas das specs e das skills.
+**/*.md
+
+# Skills e specs são mantidas pelo kit e pelo OpenSpec
+.agents/
+.claude/
+openspec/

@@ -1,0 +1,25 @@
+# CODEOWNERS — revisão humana obrigatória nas áreas sensíveis (kit de desenvolvimento v1).
+#
+# Cada linha: um caminho e quem precisa aprovar PRs que o alteram. Use os mesmos caminhos
+# da seção "Áreas sensíveis" do AGENTS.md. Só tem efeito com a proteção da branch exigindo
+# "revisão dos code owners" (ver harness/comum/protecao-branch.md no kit).
+#
+# Atenção: quem abre um PR não pode aprová-lo. Os agentes precisam de uma conta do GitHub
+# separada da sua para que você consiga aprovar os PRs deles.
+
+# Áreas sensíveis do produto — exemplos do perfil web; ajuste aos caminhos reais:
+# /supabase/migrations/   @edgarcoronato
+# /src/lib/auth/          @edgarcoronato
+# /src/app/(admin)/       @edgarcoronato
+
+# O próprio harness e as regras do projeto: um agente não pode enfraquecer o CI, o lint,
+# os hooks, as instruções, as skills ou as permissões do Claude Code sem a sua aprovação.
+/.github/               @edgarcoronato
+/.husky/                @edgarcoronato
+/.githooks/             @edgarcoronato
+/scripts/kit/           @edgarcoronato
+/AGENTS.md              @edgarcoronato
+/CLAUDE.md              @edgarcoronato
+/.claude/               @edgarcoronato
+/.agents/               @edgarcoronato
+/eslint.regras-kit.mjs  @edgarcoronato

@@ -1,0 +1,10 @@
+# Hook do kit de desenvolvimento: formata e confere os arquivos do commit e procura segredos.
+# Roda em Windows, macOS e Linux (o husky usa o shell que vem com o git).
+
+npx lint-staged || exit 1
+
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks git --pre-commit --redact --staged --verbose || exit 1
+else
+  echo "Aviso: gitleaks não está instalado nesta máquina; o CI vai procurar segredos no PR."
+fi
